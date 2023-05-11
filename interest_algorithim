@@ -1,0 +1,7 @@
+cpu ticket algorithim
+1.fifo
+2.most short priorty 
+3.muti priority queue
+4.proportional-share
+5.ticket
+starve problem
