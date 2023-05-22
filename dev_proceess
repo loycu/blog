@@ -1,0 +1,6 @@
+the environment of development is divided by dev,beta,pre,pro.
+  dev is major at individual process,make sure function right,you can write unit test case and integer test case,if you use springmvc ,
+  you can write spring integer test for controller service repo level.
+  beta is major for smoke test,and can share to inner person to test.you can use mock data to test it.
+  pre is use true data to test  ,you can canary test and part provided to user.
+  pro is full test finished process.
