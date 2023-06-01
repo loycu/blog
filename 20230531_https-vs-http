@@ -1,0 +1,9 @@
+  Today gold sentence.Im persist in writting blog.Calculus contains Differentiation and  Integration,it is truely  same thing.we must stick to this things.
+the habit is about.
+  Today i will explain http vs https .there is three feature we must know about it .That is encrypt ,integrity and authentication.
+  First,I will talk  to you about encrypt,Avoid sniffing the infomation we transter,we cant use origin infomation between the tranfering.
+  we use symmetry encrpt.It prevent the important infomation be see.
+  Second,integrate is major for  make sure not be tamper. 
+  The Last thing is authentication .this is major for communicate with correct obejct
+  There are three attack ,the first is middle people attack,this methond will atler infomation or stolen infomation .sencond is
+is param attack ,modify the reqeust or response information to make client or server affect.third is sniff or snoop infomation,like password and creditcard
