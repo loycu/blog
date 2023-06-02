@@ -1,0 +1,2 @@
+https://www.baeldung.com/spring-mvc-handlerinterceptor-vs-filter,
+above link is very helpful for me ,filter is global aop,intercepter is app api level aop
