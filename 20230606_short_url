@@ -1,0 +1,5 @@
+  short url algorithim，used for big traffice network application,like sms、share.it contains hash fuction but will collision.
+  i can use 62 bit hexadecimal，if we use 6 length url ,it contains kind of  62^6 equal 56 bililion,10 convert 62.
+  the code will be encode of id that from id generate function.The function have UUID snowflak and mysql incre,redis incre 
+  the mm3 hash function is the sencond way to.if collision,i can use the origin plus a token and rehash,the collision will checked by boolean filter.
+  short url advantage is for ads and broad
