@@ -1,0 +1,4 @@
+now ,we can compare two method to implement redis client distribute lock.
+the first one is jedis,this implement we must use lua script to release lock for avoid release other node lock.
+the second is redission,this is a convinient method.it contain tryLock(waitTime ,leaseTime),unlock for a thread.
+the redis distribute lock is convinent methond ,the zookeeper is right for strongly consistent with much more nodos.
