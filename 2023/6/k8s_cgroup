@@ -1,1 +1,5 @@
-
+  cgroup namely  Linux control groups.it has 2 version called v1 and v2.it is a important feature for containerlize.
+  be note at https://www.man7.org/linux/man-pages/man7/cgroups.7.html,Control groups, usually referred to as cgroups, are a Linux
+  kernel feature which allow processes to be organized into hierarchical groups whose usage of various types of resources can then be limited and monitored
+  The initial release of the cgroups implementation was in Linux 2.6.24.  Over time, various cgroup controllers have been added to allow the management of various types of resources.
+  Cpu,Memory,Io,Net is the mainly host resource to be assign 
