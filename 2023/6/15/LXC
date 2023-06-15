@@ -1,0 +1,3 @@
+  LXC is a userspace interface for the Linux kernel containment features.
+  Through a powerful API and simple tools, it lets Linux users easily create and manage system or application containers.
+  The goal of LXC is to create an environment as close as possible to a standard Linux installation but without the need for a separate kernel.
