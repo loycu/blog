@@ -1,0 +1,361 @@
+@Transactional(rollbackFor = Exception.class)
+非 public 修饰的方法上
+Spring默认抛出了未检查unchecked异常（继承自 RuntimeException 的异常）或者 Error才回滚事务；
+同一个类中方法调用，导致@Transactional失效
+数据库引擎不支持事务
+
+DS0152814锁住了
+
+select * from drugstore_account_info limit 3
+select * from drugstore_account_info where code='DS0152815'
+
+select * from account_change_detail where account_code='DS0152815'
+
+http://thor-service/inner/changeSubmit/checkApproving?codes=DS0247645&codes=DS0354447&codes=DS0089256&codes=DS0359916&codes=DS0081957&codes=DS0081985&codes=DS0838066&codes=DS1026520&codes=DS0752173&codes=DS1017253
+
+没人在乎你的过去， 他们只关心你的现在，而你唯一能改变的是自己的未来。
+1. gitignore 文件.
+2. .git/info/exclude 文件
+3. git update-index --assume-unchanged （官方文档）
+4. git update-index --skip-worktree（官方文档）
+技术方案
+切个新分支 魏学才
+feature/20240320_postion
+region_upload_emp_position_info 岗位
+region_upload_associate_account 买家卖家
+region_type_version_info 版本
+
+根据人查岗 region_upload_emp_position_info
+1.根据quarter在region_type_version_info 查出versionId
+然后根据verionId 查出region_upload_file_info 查出batichId
+2.根据batchId 、mid查询region_upload_emp_position_info查出岗位信息
+根据岗位查客户 region_upload_pos_acc_prod_weight
+1.根据季度参数查找生效的batchId 在region_upload_file_info
+2.根据Batch_id查出region_upload_emp_position_info
+根据岗位查下属岗位信息
+查询下属，复用查询岗位
+
+根据岗位查岗位信息
+1.根据季度参数查找生效的batchId 在region_upload_file_info
+2.根据Batch_id查出region_upload_emp_position_info	
+3.根据midid查人姓名通过调用其他服务
+
+
+
+
+
+
+
+经销商批量后面
+
+select * from information_schema.columns where TABLE_NAME ='supplier_account_info'
+SHOW databases;
+SHOW INDEX FROM `gezhi-dev_carrier`.region_upload_emp_position_info 
+
+ explain SELECT  id,upload_batch_id,edit_version,edit_parent_id,position_code,position_cn_name,position_en_name,position_type,region_type,province,province_code,city,city_code,parent_position_code,portfolio_code,employee_name,mid,agent_position,related_position_code,status,create_by,create_time,update_by,update_time,sort_id,effect_flag  FROM `gezhi-dev_carrier`.region_upload_emp_position_info     WHERE (parent_position_code IN ('VPRSTYZ027','VPRSTYZ026','VPRSTYZ025','VPRSTYZ024','DRSTYZ01P','DRSTYZ02','DRSTYZ03','PRSTYGQ025','DRSTYZ01','ASSRTYZ','DRSTYZ06','DRSTYZ07','DRSTYZ04','DRSTYZ05','DRTSTYZK01P','DRTSTYZKP01','DRTSTYZK04P','RPMRTSTYZ01','DRTSTYZK05P','DRTSTYZK02P','DRTSTYZK03P','DRTSTYZK02','DRTSTYZK06P','DRTSTYZK07P'))
+
+SELECT COUNT( * ) FROM `gezhi-dev_carrier`.region_upload_pos_acc_prod_weight     WHERE (id > 0)
+
+
+CREATE INDEX parent_code_idx ON table_name (column_name);
+
+SELECT
+	TABLE_SCHEMA AS database_name,
+	TABLE_NAME AS table_name,
+	TABLE_ROWS AS table_rows,
+	ENGINE AS table_engine,
+	ROUND(( DATA_LENGTH )/ 1024.0 / 1024, 2 ) AS Data_MB,
+	ROUND(( INDEX_LENGTH )/ 1024.0 / 1024, 2 ) AS Index_MB,
+	ROUND(( DATA_LENGTH + INDEX_LENGTH )/ 1024.0 / 1024, 2 ) AS Total_MB,
+	ROUND(( DATA_FREE )/ 1024.0 / 1024, 2 ) AS Free_MB 
+FROM
+	information_schema.`TABLES` AS T1 
+WHERE
+	T1.`TABLE_SCHEMA` NOT IN ( 'performance_schema', 'mysql', 'information_schema', 'sys' ) 
+	AND T1.TABLE_NAME is not null
+ORDER BY
+	T1.`TABLE_ROWS` DESC 
+	LIMIT 200;
+show table status
+
+Supports transactions, row-level locking, and foreign keys
+show tables
+1.分支 要从master且，合并不允许逆向合并
+2.提交时候检查配置文件等
+esNew
+segment合并同时丢掉del文件 commit point的del文件
+二分查找的有序链表 跳表
+ Roaring Bitmap。
+
+* 		使用 Skip List 结构，同时遍历 Score 和 Author 查询出来的 Posting List，利用其 Skip List 结构，相互跳跃对比，得出合集。
+* 		使用 Bitset 结构，对 Score 和 Author 查询出来的 Posting List 的值计算出各自的 Bitset，然后进行 AND 操作。
+系统设计
+短链接算法
+微博
+一条字数为140字
+1.用字母数字随机选
+2.判断网址是否合法，若合法使用 MurmurHash 算法将原始长链接 hash 为 32 位散列值，再将散列值转为 62 进制字符串，即为短链接
+https://github.com/xingly-cn/ShortUrl-Go
+https://github.com/go-awesome/shortlink/blob/main/ShortLink%20App%20Plan.pdf
+6位的短码已经能有568亿种的组合：(26+26+10)^6 = 56800235584自增方案id、摘要算法、普通随机数。
+
+：为什么要使用302跳转，而不是301跳转呢？
+301是永久重定向，302是临时重定向。短地址一经生成就不会变化，所以用301是符合http语义的。但是如果用了301， Google，百度等搜索引擎，搜索的时候会直接展示真实地址，那我们就无法统计到短地址被点击的次数了，
+
+redis
+场景
+缓存 频繁访问
+会话存储 过期
+分布式锁 协调节点
+限流 滑动窗口 漏斗
+排行榜 分数 延时队列
+
+
+快在哪里？
+内存
+数据结构
+单线程
+非阻塞io
+无锁
+
+select 遍历 bitmap 1024/2048 用户内核拷贝 遍历所有
+poll 数组 无
+epoll 回调 红黑 无 首次用户内核拷贝 遍历需要
+多路复用 nio
+ 数据结构
+渐进式rehash
+Hash 扩容 缩容 阈值 0.75 2
+rehash的操作分摊在每一个的访问中，避免集中式rehash而带来的庞大计算量。
+字典，又称为符号表(Symbol table)，关联数组(associative array)或映射(map)，
+。 Redis 通常使用 MurmurHash2 计算键的哈希值。
+ Since this post was published, we have increased the maximum number of nodes per cluster from 15 to 250 
+DigitalOcean vs. AWS
+struct dict {
+    dictType *type;  //存放各式函數指標
+
+    dictEntry **ht_table[2];  //兩個hashtable的入口
+    unsigned long ht_used[2];  //紀錄hashtable的已使用bucket數
+
+    long rehashidx; //-1表示未目前沒有進行rehash(擴容)， 0~n表示目前rehash進行到第n個bucket，且第n個以前的buckets皆已完成
+
+    /* Keep small vars at end for optimal (minimal) struct padding */
+    int16_t pauserehash; /* If >0 rehashing is paused (<0 indicates coding error) */
+    signed char ht_size_exp[2]; /* exponent of size. (size = 1<<exp) */
+    void *metadata[]; //能夠根據不同的用例和需求來儲存額外的的資料
+};
+
+https://github.com/majaja7414/redisDict-course-material/blob/main/README.md
+
+Bloom Filter
+A Bloom filter is a probabilistic data structure in Redis Stack that enables you to check if an element is present in a set using a very small memory space of a fixed size.
+https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter/
+
+先过滤，如果误判在查询数据库判断
+* 1% error rate requires 10.08 bits per item
+* 0.1% error rate requires 14.4 bits per item
+* 0.01% error rate requires 20.16 bits per item
+https://cloud.tencent.com/developer/article/2170996
+应用场景
+io多路复用 多个套接字 可读 单线程事件循环
+单线程 锁
+io多路 网络
+线程创建 上下文 锁 不安全命令
+Sorted set 查询和插入
+负责客户端处理请求的线程是单线程
+https://www.alibabacloud.com/blog/lets-talk-about-several-of-the-jvm-level-locks-in-java_596090
+
+https://mp.weixin.qq.com/s/h3VIUyH9L0v14MrQJiiDbw
+Hash 
+购物车
+userId items count 232 - 1 键值对（40多亿）  
+内存模型
+volatile 禁止缓存 从主内存读取 可见性 原子性 内存屏障 重排序
+双重校验锁
+public class Singleton {
+
+    private volatile static Singleton uniqueInstance;
+
+    private Singleton() {
+    }
+
+    public  static Singleton getUniqueInstance() {
+       //先判断对象是否已经实例过，没有实例化过才进入加锁代码
+        if (uniqueInstance == null) {
+            //类对象加锁
+            synchronized (Singleton.class) {
+                if (uniqueInstance == null) {
+                    uniqueInstance = new Singleton();
+                }
+            }
+        }
+        return uniqueInstance;
+    }
+}
+
+悲观锁 乐观锁
+悲观锁先上锁，高并发下是队列排队，更新失败的概率比较高
+乐观锁，修改时候加锁，版本号和cas算法实现
+不存在锁竞争造成线程阻塞，也不会有死锁的问题
+
+Cas
+只能保证一个共享变量的原子操作
+可以把多个变量放在一个对象里来进行 CAS 操作.所以我们可以使用锁或者利用AtomicReference类把多个共享变量合并成一个共享变量来操作
+
+monitor	
+
+轻量级锁通过自旋等待（CAS操作）来尝试获取锁
+
+StampedLock
+ReentrantLock 就属于是可中断锁。
+
+自旋cas
+
+对象头
+
+虚拟线程（Virtual Thread）是 JDK 而不是 OS 实现的轻量级线程(Lightweight Process，LWP）
+
+Java虚拟机（JVM）是Java应用运行的平台，它负责加载、验证、解释、优化和执行Java字节码
+
+
+无锁 偏向锁 cas轻量级锁 自旋重量级锁
+减少传统的重量级锁使用操作系统 Mutex Lock（互斥锁）产生的性能消耗。
+用户态和内核态的切换，
+Monitor	
+1. 有线程来竞争轻量级锁, 使用CAS操作去将对象头的Mark Word中的锁记录指针指向当前线程锁记录;
+2. 如果CAS操作替换成功, 则表示未发生竞争, 获得轻量级锁;
+3. 如果CAS操作替换失败, 则采用自旋方式再次(多次)尝试;
+3.1. 自旋获取锁成功, 获取轻量级锁;
+3.2. 自旋获取锁失败, 就是发生了锁竞争(不适合继续使用轻量级锁), 升级为重量级锁;
+https://zhuanlan.zhihu.com/p/363632315
+
+reentrentLock 
+Synchronize
+markword Dashcode gc age lock flag  threaded lock record
+
+markwork 偏向时时threadId， 轻量级时lock record
+java线程堆栈
+
+在linux中，其实线程也是进程模拟的，与普通进程最大区别在于：线程间通过mmap共享一段内存。而普通进程内存空间完全是两份独立的。
+可重入锁
+ReentrantLock 提供 tryLock 方法，锁超时 避免死锁
+支持公平/非公平锁
+可中断锁
+读写锁的规则是：读读不互斥、读写互斥、写写互斥 优化读并发
+如果是写多不如独占锁，因为维护读锁状态
+LongAdder ConcurrentHashMap 分段锁
+WriteLock(写锁)是悲观锁(排他锁、互斥锁)
+ReadLock(读锁)是共享锁(乐观锁)
+StampedLock
+RDB(Redis Database): AOF (Append Only File):
+point-in-time snapshots specified intervals.
+ logs every write operation
+
+代办
+https://zhuanlan.zhihu.com/p/389513176
+https://www.zhihu.com/tardis/zm/art/352978678?source_id=1005
+https://www.douban.com/group/topic/174910990/?start=100&_i=4024243BAuNwFx
+https://www.douban.com/group/topic/90950237/?_i=4023279BAuNwFx
+https://zhuanlan.zhihu.com/p/609225911#:~:text=%E5%8A%B3%E5%8A%A8%E4%BB%B2%E8%A3%81%E4%B8%80%E8%88%AC%E5%88%86%E4%B8%BA,%E5%87%86%E5%A4%87%E3%80%81%E4%BB%B2%E8%A3%81%E5%AE%A1%E7%90%86%E3%80%82
+https://www.gov.cn/zhengce/zhengceku/2022-02/28/content_5676130.htm	
+https://rsj.sh.gov.cn/tldrszyzc_17583/20210224/t0035_1398064.html	
+https://www.orczhou.com/index.php/2023/05/mysql-version-history/
+https://stackoverflow.com/questions/4514697/mysql-in-operator-performance-on-large-number-of-values
+https://mariadb.com/kb/en/optimization-and-tuning/
+https://www.cnblogs.com/gaogao67/p/11152935.html
+https://codegym.cc/quests/lectures/cgu.module2.lecture24
+https://blog.csdn.net/weixin_38106322/article/details/104494564
+https://www.elastic.co/guide/en/elasticsearch/reference/master/paginate-search-results.html#scroll-search-results
+https://cloud.tencent.com/developer/article/1043385
+https://zhuanlan.zhihu.com/p/562169006
+https://juejin.cn/post/7196288354015035449
+index_merge=on,index_merge_union=on,index_merge_sort_union=on,index_merge_intersection=on,engine_condition_pushdown=on,index_condition_pushdown=on,mrr=on,mrr_cost_based=on,block_nested_loop=on,batched_key_access=off,materialization=on,semijoin=on,loosescan=on,firstmatch=on,duplicateweedout=on,subquery_materialization_cost_based=on,use_index_extensions=on,condition_fanout_filter=on,derived_merge=on,use_invisible_indexes=off,skip_scan=on,hash_join=on,subquery_to_derived=off,prefer_ordering_index=on,hypergraph_optimizer=off,derived_condition_pushdown=on
+SHOW VARIABLES LIKE '%optimizer_switch%';
+SHOW VARIABLES LIKE '%dive%';
+eq_range_index_dive_limit 
+where in的数量
+SHOW GLOBAL STATUS LIKE 'InnoDB%';
+https://github.com/spring-cloud/spring-cloud-gateway/issues/2639
+
+https://blog.csdn.net/kevin_mails/article/details/84982006
+
+https://stackoverflow.com/questions/61413934/http2-err-connection-closed-too-much-overhead
+
+https://avmedia.0voice.com/?id=43228
+https://juejin.cn/s/java%20stream%20map%20%E7%A9%BA%E6%8C%87%E9%92%88
+
+https://github.com/ofpay/logback-mdc-ttl
+https://github.com/alibaba/transmittable-thread-local/issues/53
+https://houbb.github.io/2023/07/25/distributed-trace-06-log4j2-slf4j
+https://zhuanlan.zhihu.com/p/679049974
+https://github.com/cppla/ServerStatus?tab=readme-ov-file
+https://www.infoq.cn/article/q1ivdihcafwkyf8zmyj5
+https://time.geekbang.org/column/article/348006?screen=full
+https://blog.51cto.com/u_16175510/7423985
+https://www.cnblogs.com/t-bar/p/16626951.html
+https://blog.csdn.net/songhuangong123/article/details/125894326
+https://docs.oracle.com/cd/E26161_02/html/GettingStartedGuide/avroschemas.html#:~:text=Avro%20is%20used%20to%20define%20the%20data%20schema,an%20Oracle%20NoSQL%20Database%20record%20using%20Avro%20bindings.
+https://bugs.openjdk.org/browse/JDK-8148463
+
+https://stackoverflow.com/questions/24630963/nullpointerexception-in-collectors-tomap-with-null-entry-values
+https://www.cnblogs.com/super-chao/p/15229895.html
+https://github.com/redisson/redisson/issues/1872
+
+https://stackoverflow.com/questions/71172619/okhttp-client-gives-timeout-after-adding-calltimeout-config-to-it-and-has-mome
+
+https://github.com/pinpoint-apm/pinpoint
+https://zhuanlan.zhihu.com/p/60436915
+https://juejin.cn/post/7050705771218075684
+https://stackoverflow.com/questions/7929369/how-to-rebase-local-branch-onto-remote-master
+
+https://www.quora.com/What-are-some-of-the-online-computer-science-students-community-except-stackoverflow
+https://driverxdw.github.io/2020/09/19/elasticsearch-kibana%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0/
+https://www.tldevtech.com/what-is-socket-timeout/
+https://www.oreilly.com/library/view/network-algorithmics-2nd/9780128099865/
+https://www.jianshu.com/p/311121f63d2f
+https://www.baeldung.com/spring-testexecutionlistener
+https://www.cnblogs.com/xiaojiesir/p/15559121.html
+https://dba.stackexchange.com/questions/130780/mysql-count-performance
+https://learnsql.com/blog/difference-between-count-distinct/
+https://www.geeksforgeeks.org/introduction-of-b-tree/
+https://geekdaxue.co/read/MySQL-8-Query-Performance-Tuning/Chapter5.md
+https://blog.csdn.net/solinger/article/details/122300008
+https://www.javatpoint.com/b-tree-vs-bplus-tree
+https://zhuanlan.zhihu.com/p/621157247
+https://learnku.com/articles/39212
+https://blog.csdn.net/u011652364/article/details/78581737
+https://discuss.elastic.co/t/is-there-a-difference-between-query-string-wildcard-and-match/131681
+https://blog.csdn.net/UbuntuTouch/article/details/100526099
+https://zhuanlan.zhihu.com/p/366786960
+https://geek-docs.com/git/git-questions/8_git_git_squash_before_rebasing.html#google_vignette
+https://docs.github.com/zh/get-started/getting-started-with-git/ignoring-files?platform=mac
+https://zhuanlan.zhihu.com/p/366786960
+https://stackoverflow.com/questions/4475457/add-all-files-to-a-commit-except-a-single-file
+
+https://dev.mysql.com/doc/refman/8.0/en/innodb-locking.html#:~:text=Intention%20locks%20are%20table-level%20locks%20that%20indicate%20which,shared%20lock%20on%20individual%20rows%20in%20a%20table.
+https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_intention_exclusive_lock
+https://www.mysql.com/products/mysqlheatwave/oltp/
+https://blog.csdn.net/xiaoniaozl/article/details/129873938
+https://www.jianshu.com/p/68a55caa4501
+https://stackoverflow.com/questions/6919121/why-there-are-two-ways-to-unstage-a-file-in-git
+https://stackoverflow.com/questions/65817103/get-rebase-interactive-just-shows-noop-and-merges-all-commits
+https://docs.oracle.com/javadb/10.8.3.0/devguide/cdevconcepts15366.html
+https://stackoverflow.com/questions/1753070/how-do-i-configure-git-to-ignore-some-files-locally
+https://github.com/yu120/neural
+https://howtodoinjava.com/spring-boot/rest-i18n-example/
+https://cloud.tencent.com/developer/article/1012518
+https://dev.mysql.com/doc/refman/8.3/en/explain-output.html
+https://github.com/guobinhit/akka-guide/blob/master/articles/getting-started-guide/actors-motivation.md#%E8%B0%83%E7%94%A8%E6%A0%88%E7%9A%84%E5%81%87%E8%B1%A1
+https://docs.pingcode.com/ask/31860.html
+https://www.cnblogs.com/kerrycode/p/9909093.html
+https://zhuanlan.zhihu.com/p/511694185
+https://dev.mysql.com/doc/refman/8.0/en/index-condition-pushdown-optimization.html
+https://stackoverflow.com/questions/76760255/what-does-means-ref-const-const-in-mysql-explain-statment
+https://www.zhihu.com/question/20699147
+https://stackoverflow.com/questions/426731/min-max-vs-order-by-and-limit
+https://stackoverflow.com/questions/426731/min-max-vs-order-by-and-limit
+https://javaguide.cn/database/mysql/mysql-high-performance-optimization-specification-recommendations.html#%E7%A6%81%E6%AD%A2%E7%BB%99%E8%A1%A8%E4%B8%AD%E7%9A%84%E6%AF%8F%E4%B8%80%E5%88%97%E9%83%BD%E5%BB%BA%E7%AB%8B%E5%8D%95%E7%8B%AC%E7%9A%84%E7%B4%A2%E5%BC%95
+https://stackoverflow.com/questions/1992312/meaning-of-select-tables-optimized-away-in-mysql-explain-plan
+https://zhuanlan.zhihu.com/p/352645111
+https://www.cnblogs.com/BeginMan/p/3754322.html
+Git cherry-pick 518456d3..9c5367f5
+git reflog show --date=iso  old_history_posistion
